@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Spring Boot 2 API - rms.serverless::serverless-voodoo-s3-cp
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+
+Resources:
+  ServerlessS3CpFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: rms.serverless.StreamLambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: target\serverless-voodoo-s3-cp-1.0-SNAPSHOT-lambda-package.zip
+      MemorySize: 512
+      Policies: [AmazonDynamoDBFullAccess, AmazonS3FullAccess, 'arn:aws:iam::111111111111:policy/AmazonAssumeRoleFullAccess']
+      Timeout: 30
+#      Events:
+#        ProxyResource:
+#          Type: Api
+#          Properties:
+#            Path: /{proxy+}
+#            Method: any
+
+#Outputs:
+#  ServerlessS3CpApi:
+#    Description: URL for application
+#    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping'
+#    Export:
+#      Name: ServerlessS3CpApi
